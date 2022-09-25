@@ -17,13 +17,34 @@ app.get('/:id', function (req, res) {
   const url = `https://api.tfl.gov.uk/Line/${tube}/Status?app_id=${process.env.PRIMARY_KEY}&app_key=${process.env.SECONDARY_KEY}`
  axios.get(url)
  .then((data) => {
-     res.status('200').send(data.data[0].lineStatuses[0].statusSeverityDescription);
+     res.status('200').send({status: data.data[0].lineStatuses[0].statusSeverityDescription, details: data.data[0].lineStatuses[0].reason });
  }).catch((error) => {
      res.status(error.response.data.httpStatusCode).send(error.response.data.message);
  })
 
 })
 
+app.get('/stop/:id', (req, res)=> {
+    const { id: stopId } = req.params;
+    const url = `https://api.tfl.gov.uk//StopPoint/${stopId}/Arrivals?app_id=${process.env.PRIMARY_KEY}&app_key=${process.env.SECONDARY_KEY}`;
+  axios.get(url)
+  .then((data)=> {
+      const results = data.data;
+      let busTimes = results.map((eachBus)=>{
+          return {
+              bus:eachBus.lineId, 
+              time: Math.floor(eachBus.timeToStation/60),
+          }
+      }).sort((a, b)=>{
+          return (a.time-b.time);
+      })
+      res.send(busTimes);
+  })
+  .catch((error) => {
+    res.status(error.response.data.httpStatusCode).send(error.response.data.message);
+});
+   
+})
 
 
 
