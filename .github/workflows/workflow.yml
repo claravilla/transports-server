@@ -17,13 +17,13 @@ jobs:
     - name: heroku login
       uses: akhileshns/heroku-deploy@v3.12.12
       with:
-        heroku_email: ${{ secrets.HEROKU_EMAIL }} // Heroku email address
-        heroku_api_key: ${{ secrets.HEROKU_API_KEY }} // Heroku API key
+        heroku_email: ${{ secrets.HEROKU_EMAIL }}
+        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
         heroku_app_name: ${{ env.HEROKU_APP_NAME }}
         justlogin: true
 
     - name: Add heroku remote
-      run: heroku git:remote --app=${{ env.HEROKU_APP_NAME }}
+      run: heroku git:remote -a ${{ env.HEROKU_APP_NAME }}
 
-    - name: Push to master branch app on Heroku
-      run: git push heroku ${{ github.ref_name }}:master --force
+    - name: Push to main branch app on Heroku
+      run: git push heroku ${{ github.ref_name }}:main --force
