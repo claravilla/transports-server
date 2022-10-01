@@ -25,7 +25,7 @@ app.get('/:id', function (req, res) {
 })
 
 app.get('/', function(req,res) {
-    res.status('200').send('this is not the page you are looking for');
+    res.status(200).send('this is not the page you are looking for');
 })
 
 app.get('/stop/:id', (req, res)=> {
