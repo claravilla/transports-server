@@ -19,7 +19,7 @@ app.get('/:id', function (req, res) {
  .then((data) => {
      res.status(200).send({status: data.data[0].lineStatuses[0].statusSeverityDescription, details: data.data[0].lineStatuses[0].reason });
  }).catch((error) => {
-     res.status(error.response.data.httpStatusCode).send(error.response.data.message);
+     res.status(error.response.data.httpStatusCode || 500).send(error.response.data.message);
  })
 
 })
@@ -45,7 +45,7 @@ app.get('/stop/:id', (req, res)=> {
       res.status(200).send(busTimes);
   })
   .catch((error) => {
-    res.status(error.response.data.httpStatusCode).send(error.response.data.message);
+    res.status(error.response.data.httpStatusCode || 500).send(error.response.data.message);
 });
    
 })
