@@ -10,4 +10,10 @@ jobs:
     - name: git checkout
       uses: actions/checkout@v3
     - name: deploy to heroku
-      run: git push heroku main
+      uses: onekiloparsec/heroku-node-deploy-subfolder@v1.1.0
+      with:
+        api_key: ${{secrets.HEROKU_API_KEY}}
+        email: ${{secrets.HEROKU_EMAIL}}
+        app_name: transports-server-12
+        heroku_branch: "main"
+        subfolder: "dist"
