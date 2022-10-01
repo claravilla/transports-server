@@ -24,6 +24,10 @@ app.get('/:id', function (req, res) {
 
 })
 
+app.get('/', function(req,res) {
+    res.status('200').send('this is not the page you are looking for');
+})
+
 app.get('/stop/:id', (req, res)=> {
     const { id: stopId } = req.params;
     const url = `https://api.tfl.gov.uk//StopPoint/${stopId}/Arrivals?app_id=${process.env.PRIMARY_KEY}&app_key=${process.env.SECONDARY_KEY}`;
