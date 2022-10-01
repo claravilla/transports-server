@@ -6,7 +6,7 @@ require('dotenv').config();
 const app = express();
 
 app.use(cors({
-    origin: [process.env.ORIGIN, 'http://localhost:3000'];
+    origin: [process.env.ORIGIN, 'http://localhost:3000']
 }));
 
 app.get('/:id', function (req, res) {
