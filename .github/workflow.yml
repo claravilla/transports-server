@@ -1,0 +1,10 @@
+name: Deployment to heroku
+
+on: 
+  push
+   
+jobs:
+ runs-on: ubuntu latest
+ steps:
+  - name: deploy to heroku
+    run: git push heroku main
