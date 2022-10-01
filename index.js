@@ -6,13 +6,7 @@ require('dotenv').config();
 const app = express();
 
 app.use(cors({
-    origin: function (origin, callback) {
-        if (origin===process.env.ORIGIN || origin === 'http://localhost:3000') {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'))
-        }
-      } 
+    origin: process.env.ORIGIN || 'http://localhost:3000'
 }));
 
 app.get('/:id', function (req, res) {
