@@ -4,16 +4,26 @@ on:
   push
    
 jobs:
- build:
+ update-heroku:
   runs-on: ubuntu-latest
+  env:
+   HEROKU_APP_NAME: transports-server-12
   steps:
     - name: git checkout
       uses: actions/checkout@v3
-    - name: heroku deploy
-      uses: onekiloparsec/heroku-node-deploy-subfolder@v1.1.0
       with:
-        api_key: ${{secrets.HEROKU_API_KEY}}
-        email: ${{secrets.HEROKU_EMAIL}}
-        app_name: transports-server-12
-        heroku_branch: "main"
-        subfolder: "dist"
+        fetch-depth: 0
+        
+    - name: heroku login
+      uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_email: ${{ secrets.HEROKU_EMAIL }} // Heroku email address
+        heroku_api_key: ${{ secrets.HEROKU_API_KEY }} // Heroku API key
+        heroku_app_name: ${{ env.HEROKU_APP_NAME }}
+        justlogin: true
+
+    - name: Add heroku remote
+      run: heroku git:remote --app=${{ env.HEROKU_APP_NAME }}
+
+    - name: Push to master branch app on Heroku
+      run: git push heroku ${{ github.ref_name }}:master --force
